@@ -1,0 +1,22 @@
+[build]
+target = "riscv64gc-unknown-none-elf"
+
+[target.riscv64gc-unknown-none-elf]
+# 这里我们配置链接器参数
+# -C link-arg=-Tsrc/linker.ld: 指定链接脚本（我们马上就会创建）
+# -C force-frame-pointers=yes: 强制生成帧指针，方便调试和栈回溯
+rustflags = [
+    "-C",
+    "link-arg=-Tkernel/src/linker.ld",
+    "-C",
+    "force-frame-pointers=yes",
+]
+
+
+# 新增 runner 配置
+# -machine virt: 使用 QEMU 的 virt 虚拟开发板
+# -nographic: 不使用图形界面，直接在终端输出
+# -bios default: 使用默认的 OpenSBI (Supervisor Binary Interface)
+# -device loader,file=: 加载我们的内核文件
+# -device loader,addr=0x80200000: 加载到指定地址
+runner = "qemu-system-riscv64 -machine virt -nographic -bios default -kernel"
