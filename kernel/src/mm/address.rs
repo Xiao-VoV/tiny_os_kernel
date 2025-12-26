@@ -85,3 +85,16 @@ impl PhysPageNum {
         unsafe { core::slice::from_raw_parts_mut(pa.0 as *mut PageTableEntry, 512) }
     }
 }
+
+impl VirtPageNum {
+    pub fn indexes(&self) -> [usize; 3] {
+        let mut vpn = self.0;
+        let mut index = [0usize; 3];
+
+        for i in (0..3).rev() {
+            index[i] = vpn & 511; //取低9位
+            vpn >>= 9;
+        }
+        index
+    }
+}

@@ -76,7 +76,7 @@ pub extern "C" fn rust_main() -> ! {
     for i in 0..5 {
         v.push(i);
     }
-    println!("Vec: {:?}", v);
+    debug!("Vec: {:?}", v);
 
     panic!("Crash test!");
 }
