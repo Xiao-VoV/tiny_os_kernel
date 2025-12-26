@@ -4,6 +4,7 @@
 mod sbi;
 #[macro_use] // 导出 console 模块中的宏 (println!, print!)
 mod console;
+mod mm;
 
 use core::arch::global_asm;
 use core::panic::PanicInfo;
@@ -43,10 +44,26 @@ pub extern "C" fn rust_main() -> ! {
     println!("Hello, World!");
     println!("I am a Rust OS Kernel running on RISC-V!");
 
-    // 测试格式化输出
-    let val = 100;
-    println!("Value: {}, Hex: 0x{:x}", val, val);
+    // --- 内存分配
+    mm::init();
+    println!("end mm init");
+    // 测试内存分配
+    let frame1 = mm::frame_allocator::alloc_frame();
+    let frame2 = mm::frame_allocator::alloc_frame();
+    println!("Allocated frame 1: {:?}", frame1);
+    println!("Allocated frame 2: {:?}", frame2);
 
-    // 这里的 panic 会触发我们上面写的 panic_handler，并打印位置
+    if let Some(f) = frame1 {
+        mm::frame_allocator::dealloc_frame(f);
+        println!("Deallocated frame 1");
+    }
+
+    let frame3 = mm::frame_allocator::alloc_frame();
+    println!(
+        "Allocated frame 3: {:?} (Should be same as frame 1)",
+        frame3
+    );
+    // ---
+
     panic!("Crash test!");
 }

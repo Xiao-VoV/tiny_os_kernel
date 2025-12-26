@@ -13,7 +13,7 @@ impl Write for Stdout {
 }
 
 pub fn print(args: fmt::Arguments) {
-    Stdout.write_str(args.as_str().unwrap()).unwrap();
+    Stdout.write_fmt(args).unwrap();
 }
 
 // 宏定义：print!

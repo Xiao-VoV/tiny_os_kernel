@@ -1,25 +1,35 @@
 # kernel/src/entry.asm
 
     .section .text.entry
-    .global _start
+    .global  _start
 _start:
-    # 1. 设置栈指针
-    # la 是 load address，将 boot_stack_top 的地址加载到 sp 寄存器
-    la sp, boot_stack_top
+# 1. 设置栈指针
+# la 是 load address，将 boot_stack_top 的地址加载到 sp 寄存器
+    la       sp, boot_stack_top
 
-    # 2. 跳转到 Rust 代码
-    # call 伪指令会将返回地址压栈，但这里我们不打算返回
-    call rust_main
+# 2. 清零 .bss 段 (新增步骤)
+    la       t0, sbss
+    la       t1, ebss
+    bge      t0, t1, call_rust_main # 如果 sbss >= ebss，跳过清零
 
-    # 3. 如果 rust_main 返回了（理论上不应该），我们进入死循环
-    j .
+zero_bss_loop:
+    sd       zero, 0(t0)            # 将 0 写入 t0 指向的地址
+    addi     t0, t0, 8              # t0 += 8
+    blt      t0, t1, zero_bss_loop  # 如果 t0 < t1，继续循环
+# 3. 跳转到 Rust 代码
+call_rust_main:
+# call 伪指令会将返回地址压栈，但这里我们不打算返回
+    call     rust_main
 
-    # 定义栈空间
+# 3. 如果 rust_main 返回了（理论上不应该），我们进入死循环
+    j        .
+
+# 定义栈空间
     .section .bss.stack
-    .global boot_stack_lower_bound
+    .global  boot_stack_lower_bound
 boot_stack_lower_bound:
-    # 分配 4096 * 16 字节 (64KB) 的栈空间
-    .space 4096 * 16
-    .global boot_stack_top
+# 分配 4096 * 16 字节 (64KB) 的栈空间
+    .space   4096 * 16
+    .global  boot_stack_top
 boot_stack_top:
-    # 栈顶在这里（高地址）
+# 栈顶在这里（高地址）

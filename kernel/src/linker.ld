@@ -37,7 +37,8 @@ SECTIONS
         *(.sbss .sbss.*)
         ebss = .;
     }
-
+    
+    . = ALIGN(4096);
     /* 这里的 end 符号标记了内核代码的结束位置 */
     ekernel = .;
 
