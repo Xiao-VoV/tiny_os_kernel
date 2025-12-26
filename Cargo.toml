@@ -1,2 +1,3 @@
 [workspace]
 members = ["kernel"]
+resolver = "2"       # 显式指定 resolver 版本

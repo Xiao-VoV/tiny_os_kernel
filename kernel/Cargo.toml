@@ -1,10 +1,8 @@
 [package]
 name = "kernel"
 version = "0.1.0"
-edition = "2021" # 建议使用 2021 或更新
+edition = "2021"  # 建议使用 2021 或更新
 
-
-# 添加以下配置
 [profile.release]
 panic = "abort"
 

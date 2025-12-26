@@ -1,6 +1,14 @@
 [build]
 target = "riscv64gc-unknown-none-elf"
 
+
+# 新增：告诉 Cargo 重新编译核心库
+# 这需要 nightly 工具链
+[unstable]
+build-std = ["core", "compiler_builtins"]
+build-std-features = ["compiler-builtins-mem"]
+
+
 [target.riscv64gc-unknown-none-elf]
 # 这里我们配置链接器参数
 # -C link-arg=-Tsrc/linker.ld: 指定链接脚本（我们马上就会创建）
