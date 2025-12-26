@@ -98,3 +98,12 @@ impl VirtPageNum {
         index
     }
 }
+
+impl VirtAddr {
+    pub fn floor(&self) -> VirtPageNum {
+        VirtPageNum(self.0 / PAGE_SIZE)
+    }
+    pub fn ceil(&self) -> VirtPageNum {
+        VirtPageNum((self.0 + PAGE_SIZE - 1) / PAGE_SIZE)
+    }
+}

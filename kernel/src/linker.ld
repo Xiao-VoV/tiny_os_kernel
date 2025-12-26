@@ -13,31 +13,44 @@ SECTIONS
     skernel = .;
 
     /* 代码段 (Text Segment) */
+    stext = .;
     .text : {
         *(.text.entry) /* 确保入口函数放在最前面 */
         *(.text .text.*)
     }
+    . = ALIGN(4K);
+    etext = .;
 
     /* 只读数据段 (Read-Only Data) */
+    srodata = .;
     .rodata : {
         *(.rodata .rodata.*)
         *(.srodata .srodata.*)
     }
+    . = ALIGN(4K);
+    erodata = .;
 
     /* 数据段 (Data Segment) - 已初始化的数据 */
+    sdata = .;
     .data : {
         *(.data .data.*)
         *(.sdata .sdata.*)
     }
+    . = ALIGN(4K);
+    edata = .;
+
 
     /* BSS 段 - 未初始化的数据 (通常会被清零) */
+    sbss_with_stack = .;
     .bss : {
         sbss = .;
         *(.bss .bss.*)
         *(.sbss .sbss.*)
         ebss = .;
     }
-    
+    . = ALIGN(4K);
+    ebss = .;
+
     . = ALIGN(4096);
     /* 这里的 end 符号标记了内核代码的结束位置 */
     ekernel = .;
