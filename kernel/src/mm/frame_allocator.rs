@@ -1,15 +1,4 @@
-use crate::println;
-
-// 物理页号
-#[derive(Debug, Clone, Copy)]
-pub struct PhysPageNum(pub usize);
-
-// 物理地址
-#[derive(Debug, Clone, Copy)]
-pub struct PhysAddr(pub usize);
-
-// 4KB 一页
-const PAGE_SIZE: usize = 4096;
+use crate::mm::address::{PhysPageNum, PAGE_SIZE};
 
 // 简单的栈式分配器
 // 注意：这里我们硬编码了一个大小，实际 OS 中应该动态管理
