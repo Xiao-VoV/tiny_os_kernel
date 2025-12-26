@@ -1,5 +1,6 @@
 #![no_std] // 不链接 Rust 标准库
 #![no_main] // 禁用所有 Rust 层级的入口点
+#![feature(alloc_error_handler)]
 
 mod sbi;
 #[macro_use] // 导出 console 模块中的宏 (println!, print!)
@@ -8,6 +9,9 @@ mod mm;
 
 use core::arch::global_asm;
 use core::panic::PanicInfo;
+
+extern crate alloc;
+use alloc::{boxed::Box, vec::Vec};
 
 // 引入汇编代码
 // 这里的 include_str! 宏会将汇编文件作为字符串嵌入
@@ -64,6 +68,15 @@ pub extern "C" fn rust_main() -> ! {
         frame3
     );
     // ---
+
+    let b = Box::new(42);
+    println!("Box value: {}", b);
+
+    let mut v = Vec::new();
+    for i in 0..5 {
+        v.push(i);
+    }
+    println!("Vec: {:?}", v);
 
     panic!("Crash test!");
 }

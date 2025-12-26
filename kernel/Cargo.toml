@@ -8,3 +8,7 @@ panic = "abort"
 
 [profile.dev]
 panic = "abort"
+
+
+[dependencies]
+buddy_system_allocator = "0.9"
