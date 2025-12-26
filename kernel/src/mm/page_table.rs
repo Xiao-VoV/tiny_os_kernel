@@ -1,7 +1,5 @@
-use core::result;
-
 use crate::mm::{
-    address::{PhysAddr, PhysPageNum, VirtPageNum},
+    address::{PhysPageNum, VirtPageNum},
     frame_allocator::alloc_frame,
 };
 use alloc::vec;
