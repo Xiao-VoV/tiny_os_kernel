@@ -6,7 +6,7 @@
 
 <h2 id="中文">中文介绍</h2>
 
-**Rust Tint OS** 是一个基于 Rust 语言编写的 RISC-V 操作系统内核。该项目旨在通过从零开始构建内核，深入学习操作系统底层原理，如内存管理、并发控制和设备驱动等。
+**Rust Tiny OS** 是一个基于 Rust 语言编写的 RISC-V 操作系统内核。该项目旨在通过从零开始构建内核，深入学习操作系统底层原理，如内存管理、并发控制和设备驱动等。
 
 ### 主要特性
 
@@ -22,7 +22,6 @@
 
 *   `kernel/`: 操作系统内核源码
 *   `doc/`: 开发文档与笔记
-*   `target/`: 编译产物
 
 ### 构建与运行
 
@@ -44,7 +43,7 @@ cargo build --release
 
 <h2 id="english">English Introduction</h2>
 
-**Rust Tint OS** is an operating system kernel written in Rust for the RISC-V architecture. This project is designed as a learning journey to understand low-level operating system principles, including memory management, concurrency, and device drivers, by building a kernel from scratch.
+**Rust Tiny OS** is an operating system kernel written in Rust for the RISC-V architecture. This project is designed as a learning journey to understand low-level operating system principles, including memory management, concurrency, and device drivers, by building a kernel from scratch.
 
 ### Key Features
 
@@ -60,7 +59,6 @@ cargo build --release
 
 *   `kernel/`: Source code of the OS kernel
 *   `doc/`: Documentation and development notes
-*   `target/`: Build artifacts
 
 ### Build and Run
 

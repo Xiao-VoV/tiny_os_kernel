@@ -6,9 +6,12 @@ mod sbi;
 #[macro_use] // 导出 console 模块中的宏 (println!, print!)
 mod console;
 mod mm;
+mod task;
 
 use core::arch::global_asm;
 use core::panic::PanicInfo;
+
+use task::manager;
 
 extern crate alloc;
 use alloc::{boxed::Box, vec::Vec};
@@ -78,5 +81,10 @@ pub extern "C" fn rust_main() -> ! {
     }
     debug!("Vec: {:?}", v);
 
-    panic!("Crash test!");
+    println!("Initializing tasks...");
+    task::init();
+    println!("Starting first task...");
+    manager::run_first_task();
+
+    panic!("Unreachable in rust_main!");
 }
