@@ -8,6 +8,7 @@ mod console;
 mod mm;
 mod task;
 mod config;
+mod trap;
 
 use core::arch::global_asm;
 use core::panic::PanicInfo;
