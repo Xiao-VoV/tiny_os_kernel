@@ -1,3 +1,4 @@
+use crate::config::{PAGE_SIZE, PAGE_SIZE_BITS};
 use crate::mm::page_table::PageTableEntry;
 // 物理地址相关结构体
 // 物理页号
@@ -14,10 +15,6 @@ pub struct VirtAddr(pub usize);
 
 #[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Debug)]
 pub struct VirtPageNum(pub usize);
-
-// --- 常量 ---
-pub const PAGE_SIZE: usize = 4096;
-pub const PAGE_SIZE_BITS: usize = 12;
 
 // --- 转换实现 ---
 impl From<PhysAddr> for usize {

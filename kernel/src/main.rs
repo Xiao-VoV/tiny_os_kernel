@@ -7,6 +7,7 @@ mod sbi;
 mod console;
 mod mm;
 mod task;
+mod config;
 
 use core::arch::global_asm;
 use core::panic::PanicInfo;

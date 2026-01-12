@@ -1,4 +1,5 @@
-use crate::mm::address::{PhysPageNum, PAGE_SIZE};
+use crate::mm::address::{PhysPageNum};
+use crate::config::PAGE_SIZE;
 
 // 简单的栈式分配器
 // 注意：这里我们硬编码了一个大小，实际 OS 中应该动态管理

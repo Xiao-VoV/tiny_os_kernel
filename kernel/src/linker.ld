@@ -2,7 +2,8 @@
 OUTPUT_ARCH(riscv)
 ENTRY(_start)
 
-BASE_ADDRESS = 0x80200000; /* OpenSBI 通常加载内核到这个地址，预留 2MB 给 SBI */
+/* OpenSBI 通常加载内核到这个地址，预留 2MB 给 SBI */
+BASE_ADDRESS = 0x80200000; 
 
 SECTIONS
 {
@@ -18,7 +19,16 @@ SECTIONS
         *(.text.entry) /* 确保入口函数放在最前面 */
         *(.text .text.*)
     }
-    . = ALIGN(4K);
+
+
+    /* Trampoline 段: 必须按页对齐，以便可以用作 User 和 Kernel 共享的跳板页 */
+    . = ALIGN(4096);
+    .text.trampoline : {
+        strampoline = .;
+        *(.text.trampoline)
+        . = ALIGN(4096);
+    }
+
     etext = .;
 
     /* 只读数据段 (Read-Only Data) */
