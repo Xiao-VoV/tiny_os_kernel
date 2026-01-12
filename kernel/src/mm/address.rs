@@ -66,6 +66,19 @@ impl From<VirtAddr> for VirtPageNum {
 }
 // ------
 
+impl From<usize> for VirtAddr {
+    fn from(v: usize) -> Self {
+        Self(v)
+    }
+}
+impl From<usize> for VirtPageNum {
+    fn from(v: usize) -> Self {
+        Self(v)
+    }
+}
+
+
+
 impl PhysAddr {
     pub fn floor(&self) -> PhysPageNum {
         PhysPageNum(self.0 / PAGE_SIZE)

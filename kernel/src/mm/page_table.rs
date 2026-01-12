@@ -88,6 +88,10 @@ impl PageTable {
         self.root_ppn
     }
 
+    pub fn token(&self) -> usize {
+        8usize << 60 | self.root_ppn.0
+    }
+
     fn find_pte(&mut self, vpn: VirtPageNum, create: bool) -> Option<&mut PageTableEntry> {
         let idxs = vpn.indexes();
         let mut ppn = self.root_ppn;

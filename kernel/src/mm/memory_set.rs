@@ -1,4 +1,5 @@
-use crate::mm::address::{PhysPageNum, VirtAddr, VirtPageNum};
+use crate::config::TRAMPOLINE;
+use crate::mm::address::{PhysAddr, PhysPageNum, VirtAddr, VirtPageNum};
 use crate::mm::frame_allocator::{alloc_frame, dealloc_frame};
 use crate::mm::page_table::{PTEFlags, PageTable};
 use alloc::collections::BTreeMap;
@@ -187,6 +188,11 @@ impl MemorySet {
         );
 
         memory_set.map_all_area();
+
+        // 关键点：内核地址空间也需要映射 trampoline！
+        // 因为 trap.S 代码放在 trampoline 页面，内核态发生 trap 也可能用到它（虽然目前我们只处理用户态 trap）
+        memory_set.map_trampoline();
+
         memory_set
     }
 
@@ -201,5 +207,21 @@ impl MemorySet {
             // 刷新 TLB
             core::arch::asm!("sfence.vma");
         }
+    }
+
+    /// 获取页表 token (satp 寄存器的值)
+    pub fn token(&self) -> usize {
+        self.page_table.token()
+    }
+
+    pub fn map_trampoline(&mut self) {
+        extern "C" {
+            fn strampoline();
+        }
+        self.page_table.map(
+            VirtAddr::from(TRAMPOLINE).into(),
+            PhysAddr::from(strampoline as usize).into(),
+            PTEFlags::R | PTEFlags::X,
+        );
     }
 }
